@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Categoria extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'nombre', 'slug', 'tipo'
+    ];
+
+    public function mostrarTipo() {
+        if ($this->tipo == "F") {
+            return "Formativas";
+        } elseif ($this->tipo == "D") {
+            return "Federal";
+        } 
+        return "-";
+    }
+
 }

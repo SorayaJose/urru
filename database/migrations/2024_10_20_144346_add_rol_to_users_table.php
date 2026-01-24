@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('rol'); // 1 = dev 2 = recruiter
+            $table->integer('rol'); // 1 = administrador 2 = escuela
         });
     }
 

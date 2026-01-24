@@ -16,17 +16,9 @@
         </div>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h2 class="text-xl font-bold text-left mb-8 border-b border-gray-200">Crear rubro</h2>
-
-                    <div class="flex w-2/3 md:flex md:justify-center">
-                        <livewire:crear-rubro />
-                    </div>
-                </div>
-            </div>
+            <livewire:crear-rubro />   
         </div>
     </div>
 </x-app-layout>
