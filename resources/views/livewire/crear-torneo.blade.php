@@ -105,6 +105,15 @@
             </div>
 --}}
 
+<x-toggle model="cancion" label="¿Solicitar una canción?"/>
+
+<x-toggle model="cancion2" label="¿Solicitar segunda canción?"/>
+
+<x-toggle model="archivo" label="¿Solicitar una coreografía?"/>
+
+<x-toggle model="archivo2" label="¿Solicitar segunda coreografía?"/>
+
+
             <div class="flex justify-end my-2 mb-2 pb-3">
                 <x-primary-button class="w-full justify-center">
                     {{ __('Crear torneo') }}

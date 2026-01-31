@@ -27,6 +27,10 @@ class EditarTorneo extends Component
     public $escuela_id;
     public $tipo;
     public $imagenDisco;
+    public $cancion = false;
+    public $cancion2 = false;
+    public $archivo = false;
+    public $archivo2 = false;
     //public $categorias_formulario = []; 
 
     public function rules()
@@ -55,12 +59,26 @@ class EditarTorneo extends Component
         $this->imagen = null;
         $this->imagenDisco = $torneo->imagen;
         $this->tipo = $torneo->tipo;
+        $this->cancion = $torneo->cancion == 1 || $torneo->cancion === true;
+        $this->cancion2 = $torneo->cancion2 == 1 || $torneo->cancion2 === true;
+        $this->archivo = $torneo->archivo == 1 || $torneo->archivo === true;
+        $this->archivo2 = $torneo->archivo2 == 1 || $torneo->archivo2 === true;
+    
     }
 
     public function editarTorneo() {
         $datos = $this->validate();
 
-        //dd($datos['tipo']);
+        /*
+        dd([
+            'cancion' => $this->cancion,
+            'cancion2' => $this->cancion2,
+            'archivo' => $this->archivo,
+            'archivo2' => $this->archivo2,
+            'tipo cancion' => gettype($this->cancion),
+        ]);
+        */
+        
         // encontrar el rubro
         $torneo = Torneo::find($this->torneo_id);
 
@@ -82,6 +100,10 @@ class EditarTorneo extends Component
         $torneo->escuela_id  = $datos['escuela_id'];
         $torneo->tipo  = $datos['tipo'];
         $torneo->imagen = $nombre_imagen;
+        $torneo->cancion = (int) $this->cancion;
+        $torneo->cancion2 = (int) $this->cancion2;
+        $torneo->archivo = (int) $this->archivo;
+        $torneo->archivo2 = (int) $this->archivo2;
 
         // guardar el registro
         $torneo->save();

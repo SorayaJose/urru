@@ -10,6 +10,11 @@ class TorneoController extends Controller
 {
     public function index()
     {
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para administrar torneos.');
+        }
+        
         return view('torneos.index');
     }
 
@@ -20,6 +25,11 @@ class TorneoController extends Controller
      */
     public function create()
     {
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para crear torneos.');
+        }
+        
         return view('torneos.create');
     }
     
@@ -31,6 +41,8 @@ class TorneoController extends Controller
      */
     public function show(Torneo $torneo)
     {
+        // Verificar que el usuario tenga rol 0 (administrador)
+        
         return view('torneos.show', [
             'torneo' => $torneo
         ]);
@@ -38,6 +50,11 @@ class TorneoController extends Controller
 
     public function inscribir($id)
     {
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para inscribir escuelas a torneos.');
+        }
+        
         $escuela = Escuela::find($id);
         $this->escuelas()->attach( $escuela );
         return back();
@@ -45,6 +62,11 @@ class TorneoController extends Controller
 
     public function desinscribir($id)
     {
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para desinscribir escuelas de torneos.');
+        }
+        
         $escuela = Escuela::find($id);
         $this->escuelas()->detach($escuela);
         return back();
@@ -58,9 +80,11 @@ class TorneoController extends Controller
      */
     public function edit(Torneo $torneo)
     {
-        //dd($torneo);
-        //$this->authorize('update', $escuela);
-
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para editar torneos.');
+        }
+        
         return view('torneos.edit', [
             'torneo' => $torneo
         ]);

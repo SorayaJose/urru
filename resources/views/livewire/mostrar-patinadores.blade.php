@@ -71,6 +71,11 @@
                             <td class="w-3/8 px-6 py-4 text-left">
                                 <div class="text-sm text-gray-800">
                                     {{ $patinador->categoria->nombre }}
+                                    @foreach ($patinador->inscripcionesFuturas as $inscripcion)
+                                        <div class="text-xs text-gray-500">
+                                            - Inscripto en: {{ $inscripcion->torneo->nombre }} ({{ $inscripcion->torneo->fecha->format('d/m/Y') }}) 
+                                        </div>
+                                    @endforeach
                                 </div>
                             </td>                            
                             <td class="w-1/8 py-4 text-right">
@@ -130,17 +135,29 @@
                 cancelButtonText: 'Cancelar'
                 }).then((result) => {
             if (result.isConfirmed) {
-                // eliminarl del  servidor
+                // eliminar del servidor
                 Livewire.emit('eliminarPatinador', patinadorId)
-                Swal.fire({
-                    title: "Se eliminó el patinador",
-                    text: "Eliminado correctamente.",
-                    icon: "success",
-                    confirmButtonColor: "#166534"
-                });
             }
             });
         })
+
+        window.addEventListener('patinador-eliminado', event => {
+            Swal.fire({
+                title: "Se eliminó el patinador",
+                text: "Eliminado correctamente.",
+                icon: "success",
+                confirmButtonColor: "#166534"
+            });
+        });
+
+        window.addEventListener('patinador-no-eliminado', event => {
+            Swal.fire({
+                title: "No se puede eliminar",
+                text: event.detail.mensaje,
+                icon: "error",
+                confirmButtonColor: "#d33"
+            });
+        });
     </script>
 
 @endpush

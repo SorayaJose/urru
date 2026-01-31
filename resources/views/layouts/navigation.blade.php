@@ -4,14 +4,14 @@
         <div class="flex justify-between h-16">
             <div class="flex w-7xl">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center w-2/12">
+                <div class="shrink-0 flex items-center w-auto">
                     @if (auth()->user()->rol == 0) 
                         <h1 class="w-fit">
-                            <a href="/"><img src="{{ asset('images/logo_federacion.jpg') }}" width="60px" alt="Logo Federación Uruguaya de Patinaje"></a>
+                            <a href="/"><img src="{{ asset('images/logo_federacion.jpg') }}" class="w-8 sm:w-10" alt="Logo Federación Uruguaya de Patinaje"></a>
                         </h1>
                     @else
                         <h1 class="w-fit">
-                            <a href="/"><img src="{{ asset('images/logo_federacion.jpg') }}" width="80px" alt="Logo Federación Uruguaya de Patinaje"></a>
+                            <a href="/"><img src="{{ asset('images/logo_federacion.jpg') }}" class="w-10 sm:w-12" alt="Logo Federación Uruguaya de Patinaje"></a>
                         </h1>
                     @endif
                 </div>
@@ -22,7 +22,7 @@
                         <x-nav-link :href="route('torneos.index')" :active="request()->routeIs('torneos.index')">
                             Torneos
                         </x-nav-link>
-
+                        
                         <x-nav-link :href="route('escuelas.index')" :active="request()->routeIs('escuelas.index')">
                             Escuelas
                         </x-nav-link>
@@ -35,16 +35,7 @@
                         ->routeIs('pistas.index')">
                             Pistas
                         </x-nav-link>
-
-                        {{-- 
-                        <x-nav-link :href="route('torneos.index')" :active="request()->routeIs('torneos.index')">
-                            Patinadores
-                        </x-nav-link>
-                        --}}
                     @else
-                        <x-nav-link :href="route('torneos.index')" :active="request()->routeIs('torneos.index')">
-                            Torneos
-                        </x-nav-link>
                         
                         <x-nav-link :href="route('patinadores.index')" :active="request()->routeIs('patinadores.index')">
                             Patinadores
@@ -77,7 +68,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-red-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}[{{auth()->user()->rol}}]</div>
+                            <div>{{ Auth::user()->name }}</div>
 
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -142,19 +133,6 @@
                 <x-responsive-nav-link :href="route('torneos.index')" :active="request()->routeIs('torneos.index')">
                     {{ __('Torneos') }}
                 </x-responsive-nav-link>
-
-                @if (auth()->user()->rol === 2) 
-                    <div class="flex gap-2 items-center p-3">
-                        <a href="{{ route('notificaciones') }}" 
-                        class="w-7 h-7 bg-indigo-600 hover:bg-indigo-800 rounded-full flex flex-col 
-                        justify-center items-center text-sm font-extrabold text-white">
-                            {{ Auth::user()->unreadNotifications->count() }}
-                        </a>
-                        <p class="text-base font-medium text-gray-600">
-                            @choice('Notificacion|Notificaciones', Auth::user()->unreadNotifications->count())
-                        </p>
-                    </div>
-                @endif
             </div>
 
             <!-- Responsive Settings Options -->

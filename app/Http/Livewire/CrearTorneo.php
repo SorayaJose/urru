@@ -27,6 +27,10 @@ class CrearTorneo extends Component
     public $pista_id;
     public $escuela_id;
     public $tipo;
+    public $cancion = false;
+    public $cancion2 = false;
+    public $archivo = false;
+    public $archivo2 = false;
     //public $categorias_formulario = []; 
 
     protected $rules = [
@@ -68,13 +72,16 @@ class CrearTorneo extends Component
             'descripcion' => $datos['descripcion'],
             'pista_id' => $datos['pista_id'],
             'escuela_id' => $datos['escuela_id'],
-            'tipo' => $datos['tipo']
+            'tipo' => $datos['tipo'],
+            'cancion' => $this->cancion,
+            'cancion2' => $this->cancion2,
+            'archivo' => $this->archivo,
+            'archivo2' => $this->archivo2
         ]);
 
-        dd($datos['tipo']);
+        //dd($datos['tipo']);
+        //$torneo = Torneo::latest('id')->first();
         /*
-        $torneo = Torneo::latest('id')->first();
-
         if ($datos['socios_formulario'] != null) {
             foreach($datos['categorias_formulario'] as $categoria) {
                 

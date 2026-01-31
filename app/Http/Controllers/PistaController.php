@@ -9,6 +9,11 @@ class PistaController extends Controller
 {
     public function index()
     {
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para administrar pistas.');
+        }
+        
         return view('pistas.index');
     }
 
@@ -19,6 +24,11 @@ class PistaController extends Controller
      */
     public function create()
     {
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para crear pistas.');
+        }
+        
         return view('pistas.create');
     }
     
@@ -30,6 +40,11 @@ class PistaController extends Controller
      */
     public function show(Pista $pista)
     {
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para ver pistas.');
+        }
+        
         return view('pistas.show', [
             'pista' => $pista
         ]);
@@ -43,9 +58,11 @@ class PistaController extends Controller
      */
     public function edit(Pista $pista)
     {
-        //dd($pista);
-        //$this->authorize('update', $rubro);
-
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para editar pistas.');
+        }
+        
         return view('pistas.edit', [
             'pista' => $pista
         ]);

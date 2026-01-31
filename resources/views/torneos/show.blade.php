@@ -1,6 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
+        <div class="w-full text-gray-900 dark:text-gray-100 md:flex md:justify-between md:items-center">
+            <div class="px-2 py-2 w-full flex items-center  justify-between">
+                <div class="justify-right">
+                    <h1 class="font-semibold text-xl text-red-800 dark:text-gray-200 leading-tight">
+                        Torneo: {{$torneo->nombre}}
+                    </h1>
+                </div>
+                <div class="justify-right">
 
+                </div>    
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-4">

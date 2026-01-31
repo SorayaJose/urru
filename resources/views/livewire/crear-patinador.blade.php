@@ -2,7 +2,7 @@
 <div class="flex bg-white p-5  overflow-hidden shadow-sm sm:rounded-lg">
     <div class="w-1/4 pr-4 md:justify-left">
         <p class="font-medium text-red-800">Patinador</p>
-        <p class="text-xs">Acá se puede agregar la información del patinador. Se tendrá en cuenta el nombre para crear el directorio</p>
+        <p class="text-xs">Información del patinador. Esta información es interna y solo la escuela tendrá acceso.</p>
     </div>
     <div class="w-3/4 md:justify-center">
         <div class="mb-2 pb-3">

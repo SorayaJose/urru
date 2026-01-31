@@ -26,9 +26,10 @@
         @yield('scripts2')
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased min-h-screen">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @include('layouts.navigation')
             
@@ -43,7 +44,7 @@
                 @endif
 
                 <!-- Page Content -->
-                <main>
+                <main class="min-h-screen">
                     {{ $slot }}
                 </main>
             @endauth

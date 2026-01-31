@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Patinador;
 use Livewire\Component;
+use App\Models\Categoria;
+use App\Models\Patinador;
 
 class EditarPatinador extends Component
 {
@@ -54,6 +55,13 @@ class EditarPatinador extends Component
     public function render()
     {
         //dd($bancos);
-        return view('livewire.editar-patinador');
+        $categorias = Categoria::all();
+        $patinador = Patinador::find($this->patinador_id);
+        $inscripciones = $patinador->inscripciones;
+        
+        return view('livewire.editar-patinador', [
+            'categorias' => $categorias,
+            'inscripciones' => $inscripciones
+        ]);
     }
 }

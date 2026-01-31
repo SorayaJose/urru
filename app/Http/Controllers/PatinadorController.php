@@ -30,6 +30,13 @@ class PatinadorController extends Controller
      */
     public function show(Patinador $patinador)
     {
+        $escuela = auth()->user()->rol;
+
+        // Verificar que el patinador pertenece a la escuela del usuario
+        if ($patinador->escuela_id !== $escuela) {
+            abort(403, 'No tienes permiso para acceder a este patinador.');
+        }
+        
         return view('patinadores.show', [
             'patinador' => $patinador
         ]);
@@ -43,10 +50,15 @@ class PatinadorController extends Controller
      */
     public function edit(Patinador $patinador)
     {
-        //dd($escuela);
-        //$this->authorize('update', $escuela);
+        $escuela = auth()->user()->rol;
+        
+        // Verificar que el patinador pertenece a la escuela del usuario
+        if ($patinador->escuela_id !== $escuela) {
+            abort(403, 'No tienes permiso para editar este patinador.');
+        }
+        
         return view('patinadores.edit', [
-            'patinadores' => $patinadores
+            'patinador' => $patinador
         ]);
     }
 }

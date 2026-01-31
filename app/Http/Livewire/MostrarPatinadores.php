@@ -30,8 +30,16 @@ class MostrarPatinadores extends Component
     use WithPagination;
 
     public function eliminarPatinador(Patinador $patinador) {
+        // Verificar si el patinador está inscripto en algún torneo futuro
+        if ($patinador->inscripcionesFuturas()->exists()) {
+            $this->dispatchBrowserEvent('patinador-no-eliminado', [
+                'mensaje' => 'No se puede eliminar el patinador porque está inscripto en un torneo futuro. Por favor, elimine la inscripción primero.'
+            ]);
+            return;
+        }
+        
         $patinador->delete();
-        //dd($patinador);
+        $this->dispatchBrowserEvent('patinador-eliminado');
     }
  
     public function render()

@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Livewire\Mostrar;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PistaController;
@@ -10,9 +8,7 @@ use App\Http\Controllers\EscuelaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\PatinadorController;
-use App\Http\Controllers\NotificacionController;
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +28,6 @@ Route::middleware(['auth'])->group(function () {
 */
 
 Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home.index');
-
-
-//Route::get('/cambioModo', [HomeController::class, 'cambioModo'])->middleware(['auth', 'verified'])->name('home.cambioModo');
 
 Route::get('/categorias', [CategoriaController::class, 'index'])->middleware(['auth', 'verified'])->name('categorias.index');
 Route::get('/categorias/create', [CategoriaController::class, 'create'])->middleware(['auth', 'verified'])->name('categorias.create');
@@ -61,15 +54,20 @@ Route::get('/torneos', [TorneoController::class, 'index'])->middleware(['auth', 
 Route::get('/torneos/create', [TorneoController::class, 'create'])->middleware(['auth', 'verified'])->name('torneos.create');
 Route::get('/torneos/{torneo}', [TorneoController::class, 'show'])->name('torneos.show');
 Route::get('/torneos/{torneo}/edit', [TorneoController::class, 'edit'])->middleware(['auth', 'verified'])->name('torneos.edit');
-Route::get('/torneos', [TorneoController::class, 'index'])->middleware(['auth', 'verified'])->name('torneos.index');
+Route::get('/inscripciones/{inscripto}/edit', \App\Http\Livewire\EditarInscripcion::class)->middleware(['auth', 'verified'])->name('inscripciones.edit');
+
+// Ruta segura para archivos de inscripciones
+Route::get('/inscripciones/{inscripcion}/archivo/{tipo}', [App\Http\Controllers\ArchivoInscripcionController::class, 'descargar'])
+    ->middleware(['auth', 'verified'])
+    ->name('inscripciones.archivo');
 
 // Notificaciones
-Route::get('/notificaciones', [NotificacionController::class, 'mostrar'])->middleware(['auth', 'verified', 'rol.reclutador'])->name('notificaciones');
+//Route::get('/notificaciones', [NotificacionController::class, 'mostrar'])->middleware(['auth', 'verified', 'rol.reclutador'])->name('notificaciones');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    //Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 

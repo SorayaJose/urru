@@ -89,9 +89,19 @@
                                     <p>Tipo de torneo: {{ $torneo->mostrarTipo() }}</p>
                                     <p>ID: {{ $torneo->id }}</p>
                                 </div>
-                            </td>                            
+                            </td>          
+           
                             <td class="w-1/8 py-4 text-right align-top">
+                                <!-- 
                                 <button onclick="window.location.href='{{ route('torneos.show', $torneo->id) }}'" 
+                                    class="bg-green-800 py-2 px-3 text-center rounded-lg text-white text-xs font-bold uppercase">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="size-4">
+                                        <path d="M12 5C6.5 5 2.1 8.6 1 12c1.1 3.4 5.5 7 11 7s9.9-3.6 11-7c-1.1-3.4-5.5-7-11-7Zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z"/>
+                                        <circle cx="12" cy="12" r="2.5"/>
+                                    </svg>   
+                                </button>
+                                --> 
+                                <button onclick="window.location.href='{{ route('torneos.edit', $torneo->id) }}'" 
                                     class="bg-gray-800 py-2 px-3 text-center rounded-lg text-white text-xs font-bold uppercase">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="size-4">
                                         <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />

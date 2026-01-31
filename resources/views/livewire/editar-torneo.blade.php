@@ -87,25 +87,14 @@
                 </div>
                 <x-input-error :messages="$errors->get('imagen')" class="mt-2" />
             </div>
-      
-{{--
-        </div>
-    </div>
-    <div class="flex bg-white p-5  overflow-hidden shadow-sm sm:rounded-lg">
-        <div class="w-1/4 pr-4 md:justify-left">
-            <p class="font-medium text-red-800">Categorías</p>
-            <p class="text-xs">Seleccionar las categorías en las que se podrán inscribir</p>
-        </div>
-        <div class="w-3/4 md:justify-center">
-            <div class="mb-2 pb-3">
-                <x-input-label for="categorias" :value="__('Categorías:')" />  
-                @foreach ($categorias as $categoria)
-                    <input type="checkbox"  wire:model="categorias_formulario" 
-                    name="categorias_formulario[]" id="categorias_formulario" 
-                    class="mr-2" value="{{$categoria->id}}">{{$categoria->nombre}}>
-                @endforeach    
-            </div>
---}}
+
+            <x-toggle model="cancion" label="¿Solicitar una canción?" wire:key="toggle-cancion-{{ $torneo_id }}"/>
+
+            <x-toggle model="cancion2" label="¿Solicitar segunda canción?" wire:key="toggle-cancion2-{{ $torneo_id }}"/>
+
+            <x-toggle model="archivo" label="¿Solicitar una coreografía?" wire:key="toggle-archivo-{{ $torneo_id }}" />
+
+            <x-toggle model="archivo2" label="¿Solicitar segunda coreografía?"  wire:key="toggle-archivo-{{ $torneo_id }}"/>
 
             <div class="flex justify-end my-2 mb-2 pb-3">
                 <x-primary-button class="w-full justify-center">
@@ -113,9 +102,7 @@
                 </x-primary-button>
             </div>
         </div>
-        </form>
     </div>
-</div>
-    
+</form>
     
     

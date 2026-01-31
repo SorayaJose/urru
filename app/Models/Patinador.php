@@ -24,4 +24,19 @@ class Patinador extends Model
     {
         return $this->belongsTo(Categoria::class);
     }
+
+    // Relación con torneos
+    public function inscripciones()
+    {
+        return $this->hasMany(Inscripto::class, 'patinador_id');
+    }
+
+        // Relación con torneos futuros
+    public function inscripcionesFuturas()
+    {
+        return $this->hasMany(Inscripto::class, 'patinador_id')
+            ->whereHas('torneo', function($query) {
+                $query->where('fecha', '>=', now());
+            });
+    }
 }

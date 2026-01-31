@@ -9,6 +9,11 @@ class EscuelaController extends Controller
 {
     public function index()
     {
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para administrar escuelas.');
+        }
+        
         return view('escuelas.index');
     }
 
@@ -19,6 +24,11 @@ class EscuelaController extends Controller
      */
     public function create()
     {
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para crear escuelas.');
+        }
+        
         return view('escuelas.create');
     }
     
@@ -30,6 +40,11 @@ class EscuelaController extends Controller
      */
     public function show(Escuela $escuela)
     {
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para ver escuelas.');
+        }
+        
         return view('escuelas.show', [
             'escuela' => $escuela
         ]);
@@ -43,9 +58,11 @@ class EscuelaController extends Controller
      */
     public function edit(Escuela $escuela)
     {
-        //dd($escuela);
-        //$this->authorize('update', $escuela);
-
+        // Verificar que el usuario tenga rol 0 (administrador)
+        if (auth()->user()->rol !== 0) {
+            abort(403, 'No tienes permiso para editar escuelas.');
+        }
+        
         return view('escuelas.edit', [
             'escuela' => $escuela
         ]);

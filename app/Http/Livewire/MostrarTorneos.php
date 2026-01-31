@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Torneo;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Storage;
 //use Illuminate\Support\Carbon;
 //use Illuminate\Support\Facades\DB;
 //use Illuminate\Support\Facades\Storage;
@@ -26,8 +27,13 @@ class MostrarTorneos extends Component
     use WithPagination;
 
     public function eliminarTorneo(Torneo $torneo) {
+        //borrar archivos asociados 
+        if ($torneo->imagen) {
+            Storage::delete($torneo->imagen);
+        }
+        
+        // eliminar torneo
         $torneo->delete();
-        //dd($torneo);
     }
  
     public function render()
