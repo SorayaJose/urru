@@ -28,27 +28,45 @@
         </style>
 
     </head>
-    <body class="font-sans">
-        <div style="display: flex; height: 100vh;">
-            <div style="width: 40%;" class="grid place-items-center">
-                <div class="w-2/5 place-items-center">
-                    <img src="{{ asset('images/logo_federacion.jpg') }}" alt="Logo Federación Uruguaya de Patinaje">
-                    <p>telefono</p>
-                    <p>instagram, etc</p>
+    <body class="font-sans bg-gray-100 dark:bg-gray-900">
+        <div class="flex flex-col lg:flex-row min-h-screen">
+            <!-- Panel izquierdo: Info - oculto en móviles -->
+            <div class="hidden lg:flex lg:w-2/5 bg-white dark:bg-gray-800 flex-col justify-between p-8">
+                <div class="flex flex-col items-center space-y-6">
+                    <img src="{{ asset('images/logo_federacion.jpg') }}" 
+                         alt="Logo Federación Uruguaya de Patinaje"
+                         class="w-24 h-auto">
+                    <div class="text-center text-gray-700 dark:text-gray-300 space-y-2">
+                        <p class="text-sm">Federación Uruguaya de Patinaje</p>
+                    </div>
                 </div>
-                <div class="pt-20 place-items-center">
-                    <p class="italic">Servicio gestionado por:</p>
-                    <p class="italic">URRU - Gestión de torneos</p>
-                    <p class="italic">099.12.34.56</p>
+                <div class="text-center text-gray-600 dark:text-gray-400 space-y-1">
+                    <p class="italic text-xs sm:text-sm">Servicio gestionado por:</p>
+                    <p class="italic text-xs sm:text-sm font-semibold">URRU - Gestión de torneos</p>
+                    <p class="italic text-xs sm:text-sm">099.12.34.56</p>
                 </div>
-               {{--  <button class="btn-radial"><span>Start Chat</span></button> --}}
             </div>
 
-                
-            <div style="width: 60%;" class="fondo_foto">
-                <div class="min-h-screen flex flex-col items-center mt-8 sm:pt-6">
-                    <div class="w-full sm:max-w-md mt-2 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-                        {{ $slot }}
+            <!-- Panel derecho: Formulario de login -->
+            <div class="flex-1 fondo_foto flex items-center justify-center p-4 sm:p-6 lg:p-8">
+                <div class="w-full max-w-md">
+                    <!-- Logo móvil - solo visible en pantallas pequeñas -->
+                    <div class="lg:hidden mb-6 flex justify-center">
+                        <img src="{{ asset('images/logo_federacion.png') }}" 
+                             alt="Logo"
+                             class="w-16 h-auto">
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 shadow-2xl rounded-lg overflow-hidden">
+                        <div class="px-6 py-8 sm:px-8">
+                            {{ $slot }}
+                        </div>
+                    </div>
+                    
+                    <!-- Info móvil - solo visible en pantallas pequeñas -->
+                    <div class="lg:hidden mt-6 text-center text-white text-xs space-y-1">
+                        <p class="italic">Servicio gestionado por:</p>
+                        <p class="italic font-semibold">URRU - Gestión de torneos</p>
                     </div>
                 </div>
             </div>

@@ -1,8 +1,8 @@
 <form autocomplete="off" wire:submit.prevent='crearEscuela' class="w-full space-y-5">
 <div class="flex bg-white p-5  overflow-hidden shadow-sm sm:rounded-lg">
     <div class="w-1/4 pr-4 md:justify-left">
-        <p class="font-medium text-red-800">Escuela</p>
-        <p class="text-xs">Acá se puede agregar la información de la escuela. Se tendrá en cuenta el nombre para crear el directorio</p>
+        <p class="font-medium text-red-800 dark:text-red-300">Escuela</p>
+        <p class=" text-xs text-gray-600 dark:text-gray-400">Acá se puede agregar la información de la escuela. Se tendrá en cuenta el nombre para crear el directorio</p>
     </div>
     <div class="w-3/4 md:justify-center">
         <div class="mb-2 pb-3">
@@ -25,7 +25,7 @@
             <x-input-label for="descripcion" :value="__('Descripcion')" />
             <textarea wire:model="descripcion" id="descripcion"
             class="h-36 block mt-1 w-full font-medium text-sm text-gray-700 dark:text-gray-300 
-                border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="Ingrese la descripción o texto relevante sobre esta escuela. Esta información es interna y la escuela no tendrá acceso."></textarea>
             <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />
         </div>
@@ -33,8 +33,8 @@
 </div>
 <div class="flex bg-white p-5  overflow-hidden shadow-sm sm:rounded-lg">
     <div class="w-1/4 pr-4 md:justify-left">
-        <p class="font-medium text-red-800">Ingreso</p>
-        <p class="text-xs">Las escuelas o clubes ingresarán al sistema mediante un correo electrónica y su contraseña.</p>
+        <p class="font-medium text-red-800 dark:text-red-300">Ingreso</p>
+        <p class=" text-xs text-gray-600 dark:text-gray-400">Las escuelas o clubes ingresarán al sistema mediante un correo electrónica y su contraseña.</p>
     </div>
     <div class="w-3/4 md:justify-center">
         <div class="mb-2 pb-3">

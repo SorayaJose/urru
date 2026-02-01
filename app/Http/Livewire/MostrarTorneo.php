@@ -23,7 +23,7 @@ class MostrarTorneo extends Component
     public $categoria = '';
     public $patinadores = [];
     public $mostrarSugerencias = false;
-    public $sort = "fecha";
+    public $sort = "nombre";
     public $todos = '';
     public $direction = "asc";
     public $cantidad = 10;
@@ -279,13 +279,41 @@ class MostrarTorneo extends Component
         }
     }
 
+    public function order($sort)
+    {
+        if ($this->sort == $sort) {
+            // Si ya estamos ordenando por este campo, cambiar la dirección
+            if ($this->direction == 'desc') {
+                $this->direction = 'asc';
+            } else {
+                $this->direction = 'desc';
+            }
+        } else {
+            // Si es un campo nuevo, ordenar ascendente por defecto
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
+    }
+
     public function render()
     {
         $escuela = auth()->user()->rol;
         
-        $inscriptos = Inscripto::where('torneo_id', $this->torneo->id)
-            ->where('escuela_id', $escuela)
-            ->get();
+        // Obtener inscriptos con ordenamiento
+        $inscriptosQuery = Inscripto::where('patinador_torneo.torneo_id', $this->torneo->id)
+            ->where('patinador_torneo.escuela_id', $escuela)
+            ->join('patinadores', 'patinador_torneo.patinador_id', '=', 'patinadores.id')
+            ->join('categorias', 'patinador_torneo.categoria_id', '=', 'categorias.id')
+            ->select('patinador_torneo.*');
+
+        // Aplicar ordenamiento
+        if ($this->sort == 'nombre') {
+            $inscriptosQuery->orderBy('patinadores.nombre', $this->direction);
+        } elseif ($this->sort == 'categoria') {
+            $inscriptosQuery->orderBy('categorias.nombre', $this->direction);
+        }
+
+        $inscriptos = $inscriptosQuery->get();
 
         // Filtrar categorías según el tipo del torneo
         $categorias = Categoria::where('tipo', $this->torneo->tipo)->get();

@@ -1,122 +1,122 @@
 <div wire:init="loadRegistros">
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
  
-        <div class="p-4 w-full  text-gray-900 border-b border-gray-200 dark:text-gray-100
-            md:flex md:justify-between md:items-center">
-
-            <div class="px-2 py-2 w-full flex items-center">
+        <div class="p-4 w-full text-gray-900 border-b border-gray-200 dark:text-gray-100">
+            
+            <!-- Controles responsive -->
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                
+                <!-- Selector de cantidad -->
                 <div class="flex items-center">
-                    <span>Mostrar</span>
+                    <span class="text-sm">Mostrar</span>
                     <select wire:model="cantidad" class="mx-2 font-medium text-sm text-gray-700 dark:text-gray-300 
-                    border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" >
+                        border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    <span>registros</span>
+                    <span class="text-sm">registros</span>
                 </div>
-                <x-text-input id="search" class="block flex-1 mx-4" type="text" wire:model="search" 
-                    placeholder="Ingrese el texto a buscar" />    
+                
+                <!-- Buscador -->
+                <div class="flex-1 sm:max-w-md">
+                    <x-text-input id="search" class="block w-full" type="text" wire:model="search" 
+                        placeholder="Buscar patinador..." />
+                </div>
             </div>
         </div>
 
         @if (count($patinadores))
-            <!-- Table -->
-            <table class='mx-auto max-w-6xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden'>
-                <thead class="bg-gray-150">
-                    <tr class="text-gray-600 text-left bg-gray-150">
-                        <th class="w-4/8 text-left cursor-pointer text-red-800 font-semibold text-sm uppercase px-6 py-4"
-                            wire:click="order('nombre')">
-                            Nombre
-                            {{-- sort --}}
-                            @if ($sort == 'nombre')
-                                @if ($direction == 'asc')
-                                    <i class="fa-solid fa-arrow-up-wide-short float-right mt-1"></i> 
+            <!-- Tabla responsive con scroll horizontal en móviles -->
+            <div class="overflow-x-auto">
+                <table class='mx-auto max-w-6xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300'>
+                    <thead class="bg-gray-150">
+                        <tr class="text-gray-600 text-left bg-gray-150">
+                            <th class="text-left cursor-pointer text-red-800 font-semibold text-xs sm:text-sm uppercase px-3 sm:px-6 py-3 sm:py-4"
+                                wire:click="order('nombre')">
+                                Patinador
+                                {{-- sort --}}
+                                @if ($sort == 'nombre')
+                                    @if ($direction == 'asc')
+                                        <i class="fa-solid fa-arrow-up-wide-short float-right mt-1"></i> 
+                                    @else
+                                        <i class="fa-solid fa-arrow-down-wide-short float-right mt-1"></i> 
+                                    @endif
                                 @else
-                                    <i class="fa-solid fa-arrow-down-wide-short float-right mt-1"></i> 
+                                    <i class="fa-solid fa-sort float-right mt-1"></i> 
                                 @endif
-                            @else
-                                <i class="fa-solid fa-sort float-right mt-1"></i> 
-                            @endif
-                        </th>
-                        <th class="w-3/8  cursor-pointer text-red-800 font-semibold text-sm uppercase px-6 py-4"
-                        wire:click="order('categoria')">
-                            Categoria
-                            {{-- sort --}}           
-                            @if ($sort == 'categoria')
-                                @if ($direction == 'asc')
-                                    <i class="fa-solid fa-arrow-up-wide-short float-right mt-1"></i> 
-                                @else
-                                    <i class="fa-solid fa-arrow-down-wide-short float-right mt-1"></i> 
-                                @endif
-                            @else
-                                <i class="fa-solid fa-sort float-right mt-1"></i> 
-                            @endif         
-                        </th>                        
-                        <th class="w-1/8 font-semibold text-sm uppercase px-6 py-4">
-                            
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    @foreach ($patinadores as $patinador)
-                        <tr>
-                            <td class="w-4/8 px-6 py-4 text-left">
-                                <div class="text-sm text-gray-800">
-                                    {{ $patinador->nombre }}
-                                </div>
-                            </td>
-
-                            <td class="w-3/8 px-6 py-4 text-left">
-                                <div class="text-sm text-gray-800">
-                                    {{ $patinador->categoria->nombre }}
+                            </th>                       
+                            <th class="font-semibold text-xs sm:text-sm uppercase px-3 sm:px-6 py-3 sm:py-4 text-center w-24">
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach ($patinadores as $patinador)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 text-left">
+                                    <div class="text-xs sm:text-sm text-gray-800 font-medium">
+                                        {{ $patinador->nombre }}
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        {{ $patinador->categoria->nombre }}
+                                    </div>
                                     @foreach ($patinador->inscripcionesFuturas as $inscripcion)
-                                        <div class="text-xs text-gray-500">
-                                            - Inscripto en: {{ $inscripcion->torneo->nombre }} ({{ $inscripcion->torneo->fecha->format('d/m/Y') }}) 
+                                        <div class="text-xs text-gray-400 mt-1">
+                                            📋 {{ $inscripcion->torneo->nombre }} 
+                                            <span class="text-gray-300">({{ $inscripcion->torneo->fecha->format('d/m/Y') }})</span>
                                         </div>
                                     @endforeach
-                                </div>
-                            </td>                            
-                            <td class="w-1/8 py-4 text-right">
-                                <button onclick="window.location.href='{{ route('patinadores.edit', $patinador->id) }}'" 
-                                    class="bg-gray-800 py-2 px-3 text-center rounded-lg text-white text-xs font-bold uppercase">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="size-4">
-                                        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
-                                        <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
-                                      </svg>
-                                </button>
-            
-                                <button
-                                    wire:click="$emit('prueba', {{ $patinador->id }})" 
-                                    class="bg-red-600 py-2 px-2 text-center rounded-lg text-white text-xs font-bold uppercase">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="size-4">
-                                        <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
-                                      </svg>                          
-                                </button>            
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                </td>                            
+                                <td class="px-3 sm:px-6 py-3 sm:py-4">
+                                    <div class="flex justify-center gap-2">
+                                        <button 
+                                            onclick="window.location.href='{{ route('patinadores.edit', $patinador->id) }}'" 
+                                            class="bg-gray-800 hover:bg-gray-700 p-2 rounded-lg text-white transition-colors"
+                                            title="Editar">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-4 h-4">
+                                                <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                                <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                            </svg>
+                                        </button>
+                    
+                                        <button
+                                            wire:click="$emit('prueba', {{ $patinador->id }})" 
+                                            class="bg-red-600 hover:bg-red-700 p-2 rounded-lg text-white transition-colors"
+                                            title="Eliminar">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-4 h-4">
+                                                <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+                                            </svg>                          
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
-        </div>
-
-            <div class="mt-5">
+            <!-- Paginación responsive -->
+            <div class="px-4 py-3 sm:px-6">
                 {{ $patinadores->links() }}
             </div>
         @else
             @if ($readyToLoad)
-                <div class="px-8 py-4">No hay patinadores a mostrar</div>
-            @else
-                <div class="flex justify-center h-14">
-                    <img src="{{ asset('progress.gif')}}" alt="Cargando">
+                <div class="px-4 sm:px-8 py-6 sm:py-8 text-center text-gray-500">
+                    <svg class="mx-auto h-12 w-12 text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                    </svg>
+                    <p class="text-sm sm:text-base">No hay patinadores para mostrar</p>
                 </div>
-            @endif          
-        </div>
-
+            @else
+                <div class="flex justify-center items-center h-32 sm:h-40">
+                    <img src="{{ asset('progress.gif')}}" alt="Cargando" class="h-10 sm:h-14">
+                </div>
+            @endif
         @endif
-    
+    </div>
+</div>
 </div>
 
 @push('scripts')
@@ -131,13 +131,14 @@
                 showCancelButton: true,
                 confirmButtonColor: "#1F2937",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar el patinador!",
-                cancelButtonText: 'Cancelar'
-                }).then((result) => {
-            if (result.isConfirmed) {
-                // eliminar del servidor
-                Livewire.emit('eliminarPatinador', patinadorId)
-            }
+                confirmButtonText: "Sí, eliminar!",
+                cancelButtonText: 'Cancelar',
+                backdrop: 'rgba(0,0,0,0.7)'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // eliminar del servidor
+                    Livewire.emit('eliminarPatinador', patinadorId)
+                }
             });
         })
 
@@ -146,7 +147,8 @@
                 title: "Se eliminó el patinador",
                 text: "Eliminado correctamente.",
                 icon: "success",
-                confirmButtonColor: "#166534"
+                confirmButtonColor: "#166534",
+                backdrop: 'rgba(0,0,0,0.7)'
             });
         });
 
@@ -155,7 +157,8 @@
                 title: "No se puede eliminar",
                 text: event.detail.mensaje,
                 icon: "error",
-                confirmButtonColor: "#d33"
+                confirmButtonColor: "#d33",
+                backdrop: 'rgba(0,0,0,0.7)'
             });
         });
     </script>

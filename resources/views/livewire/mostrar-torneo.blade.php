@@ -1,12 +1,15 @@
 <div class=" h-full pb-6">
-    <div class="bg-white p-4 border border-gray-300  dark:bg-gray-800 overflow-hidden mb-3 shadow-sm sm:rounded-lg">        
-        <div class="px-2 py-2 w-full flex items-start justify-between gap-6">            
-            <div class="flex-1">
-                <h1 class="font-semibold text-xl text-red-800 dark:text-gray-200 leading-tight">
+    <div class="bg-white p-4 sm:p-6 border border-gray-300 dark:bg-gray-800 overflow-hidden mb-3 shadow-sm sm:rounded-lg">        
+        <div class="flex flex-col lg:flex-row items-start gap-4 lg:gap-6">            
+            <div class="flex-1 w-full">
+                <h1 class="font-semibold text-lg sm:text-xl lg:text-2xl text-red-800 dark:text-gray-200 leading-tight">
                     {{$torneo->nombre}}
-                    <p class="text-xl text-gray-500 pt-4">Fecha: {{ $torneo->fecha->format('d/m/Y') }}</p>
-                    <p class="text-sm text-gray-500 mt-3 mb-5">Se recibe información hasta el: <font class="text-green-600">{{ $torneo->fecha_cierre->format('d/m/Y') }}</font></p>
                 </h1>
+                <p class="text-base sm:text-lg text-gray-500 pt-3 sm:pt-4">Fecha: {{ $torneo->fecha->format('d/m/Y') }}</p>
+                <p class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-3 mb-3 sm:mb-5">
+                    Se recibe información hasta el: 
+                    <span class="font-semibold text-green-600">{{ $torneo->fecha_cierre->format('d/m/Y') }}</span>
+                </p>
                 @if ($torneo->pedirCargarArchivos())
                     <p class="text-gray-500 text-sm">Para este torneo se debe ingresar:</p>
                     <ul class="list-disc list-inside text-gray-500 text-sm">
@@ -23,37 +26,50 @@
                             <li>Coreografía corta</li>
                     @endif
                 @endif
-                <p class="text-sm mt-3 mb-3 whitespace-pre-line">{{ $torneo->descripcion }}</p>
+                <p class="text-xs sm:text-sm mt-3 mb-3 whitespace-pre-line">{{ $torneo->descripcion }}</p>
 
-                <p class="pt-6 text-green-600 pb-3">Inscriptos: 
-                    <b>{{$torneo->buscoCantidadInscriptos()}}</b> participantes
-                </p> 
+                <div class="pt-4 sm:pt-6 space-y-3">
+                    <p class="text-sm sm:text-base text-green-600">
+                        Inscriptos: <b class="text-lg">{{$torneo->buscoCantidadInscriptos()}}</b> participantes
+                    </p> 
 
-                @php
-                    $stats = $torneo->estadisticasInscripciones();
-                @endphp
+                    @php
+                        $stats = $torneo->estadisticasInscripciones();
+                    @endphp
 
-                @if ($stats['incompletos'] > 0)
-                    <p class="text-xl text-red-600 mb-3 italics">Hay patinadores con información incompleta. <br> Por favor, revise antes de finalizar el periodo de inscripción.</p>
-                @else
-                    <x-primary-button         
-                        class="w-1/2 justify-center mt-auto bg-green-500">
-                        Inscripción Completada
-                    </x-primary-button>
-                @endif
+                    @if ($stats['incompletos'] > 0)
+                        <div class="bg-red-50 border-l-4 border-red-500 p-3 sm:p-4">
+                            <p class="text-sm sm:text-base text-red-700 font-medium">
+                                ⚠️ Hay patinadores con información incompleta.
+                            </p>
+                            <p class="text-xs sm:text-sm text-red-600 mt-1">
+                                Por favor, revise antes de finalizar el periodo de inscripción.
+                            </p>
+                        </div>
+                    @else
+                        <div class="bg-green-50 border-l-4 border-green-500 p-3 sm:p-4">
+                            <p class="text-sm sm:text-base text-green-700 font-medium">
+                                ✅ Inscripción Completada
+                            </p>
+                            <p class="text-xs sm:text-sm text-green-600 mt-1">
+                                Todos los patinadores tienen la información requerida.
+                            </p>
+                        </div>
+                    @endif
+                </div>
 
 
-           </div>
+            </div>
             {{--// route('torneos.desinscribir', {{auth()->user()->rol}}) --}}
-            <div class="flex-shrink-0 w-80">
+            <div class="w-full lg:w-80 lg:flex-shrink-0">
                 @if ($torneo->imagen != '')
                     <img src="{{ asset('storage/torneos/' . $torneo->imagen) }}" 
                             alt="{{ $torneo->nombre }}"
-                            class="w-full h-auto max-h-96 object-contain rounded-lg shadow-lg border-2 border-gray-300" />
+                            class="w-full h-auto max-h-64 lg:max-h-96 object-contain rounded-lg shadow-lg border-2 border-gray-300" />
                 @else
                     <img src="{{ asset('images/medalla.jpg') }}" 
                             alt="Torneo"
-                            class="w-full h-auto max-h-96 object-contain rounded-lg shadow-lg border-2 border-gray-300" />
+                            class="w-full h-auto max-h-64 lg:max-h-96 object-contain rounded-lg shadow-lg border-2 border-gray-300" />
                 @endif
             </div>    
         </div>
@@ -252,36 +268,46 @@
         </div>
     </div>
 
-    <div class="bg-white pb-24 dark:bg-gray-800 border border-gray-300 overflow-hidden shadow-sm sm:rounded-lg h-full">
-        <h1 class="font-semibold text-xl text-red-800 dark:text-gray-200 px-6  pt-3 pb-3">
+    <div class="bg-white pb-12 sm:pb-24 dark:bg-gray-800 border border-gray-300 overflow-hidden shadow-sm sm:rounded-lg">
+        <h1 class="font-semibold text-lg sm:text-xl text-red-800 dark:text-gray-200 px-4 sm:px-6 pt-3 pb-3">
             {{ __('Listado de patinadores inscriptos al torneo') }}
         </h1>
 
-        <table class='mx-auto max-w-6xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden'>
-            <thead class="bg-gray-150">
-                <tr class="text-gray-600 text-left bg-gray-150">
-                    <th class="text-left cursor-pointer text-red-800 font-semibold text-sm uppercase px-6 py-4"
-                        wire:click="order('nombre')">
-                        Nombre
-                        {{-- sort --}}
-                        @if ($sort == 'nombre')
-                            @if ($direction == 'asc')
-                                <i class="fa-solid fa-arrow-up-wide-short float-right mt-1"></i> 
+        <div class="overflow-x-auto">
+            <table class='mx-auto max-w-6xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300'>
+                <thead class="bg-gray-150">
+                    <tr class="text-gray-600 text-left bg-gray-150">
+                        <th class="text-left cursor-pointer text-red-800 font-semibold text-xs sm:text-sm uppercase px-3 sm:px-6 py-3 sm:py-4"
+                            wire:click="order('nombre')">
+                            Nombre
+                            {{-- sort --}}
+                            @if ($sort == 'nombre')
+                                @if ($direction == 'asc')
+                                    <i class="fa-solid fa-arrow-up-wide-short float-right mt-1"></i> 
+                                @else
+                                    <i class="fa-solid fa-arrow-down-wide-short float-right mt-1"></i> 
+                                @endif
                             @else
-                                <i class="fa-solid fa-arrow-down-wide-short float-right mt-1"></i> 
+                                <i class="fa-solid fa-sort float-right mt-1"></i> 
                             @endif
-                        @else
-                            <i class="fa-solid fa-sort float-right mt-1"></i> 
-                        @endif
-                    </th>
-                    <th class="cursor-pointer text-red-800 font-semibold text-sm uppercase px-6 py-4"
-                    wire:click="order('categoria')">
-                        Categoría
-                        {{-- sort --}}                   
-                    </th>
+                        </th>
+                        <th class="cursor-pointer text-red-800 font-semibold text-xs sm:text-sm uppercase px-3 sm:px-6 py-3 sm:py-4"
+                            wire:click="order('categoria')">
+                            Categoría
+                            {{-- sort --}}
+                            @if ($sort == 'categoria')
+                                @if ($direction == 'asc')
+                                    <i class="fa-solid fa-arrow-up-wide-short float-right mt-1"></i> 
+                                @else
+                                    <i class="fa-solid fa-arrow-down-wide-short float-right mt-1"></i> 
+                                @endif
+                            @else
+                                <i class="fa-solid fa-sort float-right mt-1"></i> 
+                            @endif
+                        </th>
 
                     @if ($torneo->cancion)
-                        <th class="text-center text-red-800 font-semibold text-sm px-4 py-4" title="Música larga">
+                        <th class="hidden sm:table-cell text-center text-red-800 font-semibold text-xs sm:text-sm px-2 sm:px-4 py-3 sm:py-4" title="Música larga">
                             <div class="flex items-center justify-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                                     <path fill-rule="evenodd" d="M19.952 1.651a.75.75 0 01.298.599V16.303a3 3 0 01-2.176 2.884l-1.32.377a2.553 2.553 0 11-1.403-4.909l2.311-.66a1.5 1.5 0 001.088-1.442V6.994l-9 2.572v9.737a3 3 0 01-2.176 2.884l-1.32.377a2.553 2.553 0 11-1.402-4.909l2.31-.66a1.5 1.5 0 001.088-1.442V5.697a.75.75 0 01.544-.721l10.5-3a.75.75 0 01.658.075z" clip-rule="evenodd" />
@@ -292,7 +318,7 @@
                     @endif
 
                     @if ($torneo->cancion2)
-                        <th class="text-center text-red-800 font-semibold text-sm px-4 py-4" title="Música corta">
+                        <th class="hidden sm:table-cell text-center text-red-800 font-semibold text-xs sm:text-sm px-2 sm:px-4 py-3 sm:py-4" title="Música corta">
                             <div class="flex items-center justify-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                                     <path fill-rule="evenodd" d="M19.952 1.651a.75.75 0 01.298.599V16.303a3 3 0 01-2.176 2.884l-1.32.377a2.553 2.553 0 11-1.403-4.909l2.311-.66a1.5 1.5 0 001.088-1.442V6.994l-9 2.572v9.737a3 3 0 01-2.176 2.884l-1.32.377a2.553 2.553 0 11-1.402-4.909l2.31-.66a1.5 1.5 0 001.088-1.442V5.697a.75.75 0 01.544-.721l10.5-3a.75.75 0 01.658.075z" clip-rule="evenodd" />
@@ -303,7 +329,7 @@
                     @endif
 
                     @if ($torneo->archivo)
-                        <th class="text-center text-red-800 font-semibold text-sm px-4 py-4" title="Coreografía larga">
+                        <th class="hidden sm:table-cell text-center text-red-800 font-semibold text-xs sm:text-sm px-2 sm:px-4 py-3 sm:py-4" title="Coreografía larga">
                             <div class="flex items-center justify-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                                     <path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
@@ -314,7 +340,7 @@
                     @endif
 
                     @if ($torneo->archivo2)
-                        <th class="text-center text-red-800 font-semibold text-sm px-4 py-4" title="Coreografía corta">
+                        <th class="hidden sm:table-cell text-center text-red-800 font-semibold text-xs sm:text-sm px-2 sm:px-4 py-3 sm:py-4" title="Coreografía corta">
                             <div class="flex items-center justify-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                                     <path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
@@ -324,28 +350,28 @@
                         </th>
                     @endif
                         
-                    <th class="font-semibold text-sm uppercase px-6 py-4">
-                        
+                    <th class="font-semibold text-xs sm:text-sm uppercase px-3 sm:px-6 py-3 sm:py-4 text-center">
+                        Acciones
                     </th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
                 @foreach ($inscriptos as $inscripto)
-                    <tr>
-                        <td class="px-6 py-4 text-left">
-                            <div class="text-sm text-gray-800">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-left">
+                            <div class="text-xs sm:text-sm text-gray-800 font-medium">
                                 {{ $inscripto->patinador->nombre }}
                             </div>
                         </td>
 
-                        <td class="px-6 py-4 text-left">
-                            <div class="text-sm text-gray-800">
+                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-left">
+                            <div class="text-xs sm:text-sm text-gray-800">
                                 {{ $inscripto->categoria->nombre }}
                             </div>
                         </td>
 
                         @if ($torneo->cancion)
-                            <td class="px-4 py-4 text-center">
+                            <td class="hidden sm:table-cell px-2 sm:px-4 py-3 sm:py-4 text-center">
                                 @if ($inscripto->cancion)
                                     <div class="flex items-center justify-center gap-2">
                                         <a href="{{ route('inscripciones.archivo', [$inscripto->id, 'cancion']) }}" target="_blank" 
@@ -363,7 +389,7 @@
                         @endif
 
                         @if ($torneo->cancion2)
-                            <td class="px-4 py-4 text-center">
+                            <td class="hidden sm:table-cell px-2 sm:px-4 py-3 sm:py-4 text-center">
                                 @if ($inscripto->cancion2)
                                     <div class="flex items-center justify-center gap-2">
                                         <a href="{{ route('inscripciones.archivo', [$inscripto->id, 'cancion2']) }}" target="_blank" 
@@ -381,7 +407,7 @@
                         @endif
 
                         @if ($torneo->archivo)
-                            <td class="px-4 py-4 text-center">
+                            <td class="hidden sm:table-cell px-2 sm:px-4 py-3 sm:py-4 text-center">
                                 @if ($inscripto->archivo)
                                     <a href="{{ route('inscripciones.archivo', [$inscripto->id, 'archivo']) }}" target="_blank" 
                                        class="text-green-600 hover:text-green-800" title="Ver coreografía">
@@ -396,7 +422,7 @@
                         @endif
 
                         @if ($torneo->archivo2)
-                            <td class="px-4 py-4 text-center">
+                            <td class="hidden sm:table-cell px-2 sm:px-4 py-3 sm:py-4 text-center">
                                 @if ($inscripto->archivo2)
                                     <a href="{{ route('inscripciones.archivo', [$inscripto->id, 'archivo2']) }}" target="_blank" 
                                        class="text-green-600 hover:text-green-800" title="Ver coreografía corta">
@@ -410,27 +436,33 @@
                             </td>
                         @endif
                             
-                        <td class="py-4 text-right">
-                            <button onclick="window.location.href='{{ route('inscripciones.edit', $inscripto->id) }}'" 
-                                class="bg-gray-800 py-2 px-3 text-center rounded-lg text-white text-xs font-bold uppercase">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="size-4">
-                                    <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
-                                    <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
-                                  </svg>
-                            </button>
-        
-                            <button
-                                wire:click="$emit('confirmarDesinscripcion', {{ $inscripto->patinador->id }})" 
-                                class="bg-red-600 py-2 px-2 text-center rounded-lg text-white text-xs font-bold uppercase">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="size-4">
-                                    <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
-                                  </svg>                          
-                            </button>            
+                        <td class="px-3 sm:px-6 py-3 sm:py-4">
+                            <div class="flex justify-center gap-2">
+                                <button 
+                                    onclick="window.location.href='{{ route('inscripciones.edit', $inscripto->id) }}'" 
+                                    class="bg-gray-800 hover:bg-gray-700 p-2 rounded-lg text-white transition-colors"
+                                    title="Editar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-4 h-4">
+                                        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                        <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                    </svg>
+                                </button>
+            
+                                <button
+                                    wire:click="$emit('confirmarDesinscripcion', {{ $inscripto->patinador->id }})" 
+                                    class="bg-red-600 hover:bg-red-700 p-2 rounded-lg text-white transition-colors"
+                                    title="Eliminar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-4 h-4">
+                                        <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+                                    </svg>                          
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 
@@ -446,19 +478,21 @@
                 showCancelButton: true,
                 confirmButtonColor: "#1F2937",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Si, desinscribirlo!",
-                cancelButtonText: 'Cancelar'
-                }).then((result) => {
-            if (result.isConfirmed) {
-                // inscribir
-                Livewire.emit('desinscribir', id);
-                Swal.fire({
-                    title: "Se desinscribió",
-                    text: "correctamente al torneo.",
-                    icon: "success",
-                    confirmButtonColor: "#166534"
-                });
-            }
+                confirmButtonText: "Sí, desinscribirlo!",
+                cancelButtonText: 'Cancelar',
+                backdrop: 'rgba(0,0,0,0.7)'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // inscribir
+                    Livewire.emit('desinscribir', id);
+                    Swal.fire({
+                        title: "Se desinscribió",
+                        text: "correctamente al torneo.",
+                        icon: "success",
+                        confirmButtonColor: "#166534",
+                        backdrop: 'rgba(0,0,0,0.7)'
+                    });
+                }
             });
         })
     </script>

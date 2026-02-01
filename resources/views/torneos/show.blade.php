@@ -25,9 +25,14 @@
                 </div>
 
             @endif
-            <livewire:mostrar-torneo 
-            :torneo="$torneo"
-        />
+            
+            @if (auth()->user()->rol == 0)
+                {{-- Vista para Administrador--}}
+                <livewire:mostrar-torneo-admin :torneo="$torneo" />
+            @else
+                {{-- Vista para Escuelas --}}
+                <livewire:mostrar-torneo :torneo="$torneo" />
+            @endif
         </div>
     </div>
 </x-app-layout>

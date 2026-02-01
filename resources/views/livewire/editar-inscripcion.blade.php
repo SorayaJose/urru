@@ -3,11 +3,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white p-6 border border-gray-300 dark:bg-gray-800 overflow-hidden mb-3 shadow-sm sm:rounded-lg">        
                 <div class="mb-6">            
-                    <h1 class="font-semibold text-2xl text-red-800 dark:text-gray-200 leading-tight">
+                    <h1 class="font-semibold text-2xl text-red-800 dark:text-red-300 leading-tight">
                         Editar Inscripción
                     </h1>
-                    <p class="text-gray-600 mt-2">Torneo: <span class="font-semibold">{{ $torneo->nombre }}</span></p>
-                    <p class="text-gray-600">Patinador: <span class="font-semibold">{{ $patinador->nombre }}</span></p>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2">Torneo: <span class="font-semibold">{{ $torneo->nombre }}</span></p>
+                    <p class="text-gray-600 dark:text-gray-400">Patinador: <span class="font-semibold">{{ $patinador->nombre }}</span></p>
                 </div>
 
                 <form wire:submit.prevent='actualizarInscripcion' class="space-y-6">
@@ -17,7 +17,7 @@
                 <x-input-label for="categoria" :value="__('Categoría')" />
                 <select wire:model="categoria" id="categoria"
                     class="block mt-1 w-full font-medium text-sm text-gray-700 dark:text-gray-300 
-                    border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     <option value="">-- Seleccione --</option>
                     @foreach ($categorias as $cate)
                         <option value="{{ $cate->id }}">{{ $cate->nombre }}</option>
@@ -43,11 +43,11 @@
                                 
                                 @if ($inscripto->cancion)
                                     <div class="mb-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                                        <p class="text-xs font-semibold text-blue-800 mb-1">Archivo actual:</p>
+                                        <p class="text-xs font-semibold text-blue-800 dark:text-blue-300 mb-1">Archivo actual:</p>
                                         <div class="flex items-center justify-between">
                                             <span class="text-xs text-blue-700">{{ $inscripto->cancion_nombre_original ?? basename($inscripto->cancion) }}</span>
                                             <a href="{{ route('inscripciones.archivo', [$inscripto->id, 'cancion']) }}" target="_blank" 
-                                               class="text-blue-600 hover:text-blue-800 text-xs underline">Ver</a>
+                                               class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-xs underline">Ver</a>
                                         </div>
                                         @if ($inscripto->duracion_larga)
                                             <p class="text-xs text-blue-600 mt-1">Duración: {{ $inscripto->duracion_larga }}</p>
@@ -85,11 +85,11 @@
                                 
                                 @if ($inscripto->cancion2)
                                     <div class="mb-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                                        <p class="text-xs font-semibold text-blue-800 mb-1">Archivo actual:</p>
+                                        <p class="text-xs font-semibold text-blue-800 dark:text-blue-300 mb-1">Archivo actual:</p>
                                         <div class="flex items-center justify-between">
                                             <span class="text-xs text-blue-700">{{ $inscripto->cancion2_nombre_original ?? basename($inscripto->cancion2) }}</span>
                                             <a href="{{ route('inscripciones.archivo', [$inscripto->id, 'cancion2']) }}" target="_blank" 
-                                               class="text-blue-600 hover:text-blue-800 text-xs underline">Ver</a>
+                                               class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-xs underline">Ver</a>
                                         </div>
                                         @if ($inscripto->duracion)
                                             <p class="text-xs text-blue-600 mt-1">Duración: {{ $inscripto->duracion }}</p>
@@ -127,11 +127,11 @@
                                 
                                 @if ($inscripto->archivo)
                                     <div class="mb-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                                        <p class="text-xs font-semibold text-blue-800 mb-1">Archivo actual:</p>
+                                        <p class="text-xs font-semibold text-blue-800 dark:text-blue-300 mb-1">Archivo actual:</p>
                                         <div class="flex items-center justify-between">
                                             <span class="text-xs text-blue-700">{{ $inscripto->archivo_nombre_original ?? basename($inscripto->archivo) }}</span>
                                             <a href="{{ route('inscripciones.archivo', [$inscripto->id, 'archivo']) }}" target="_blank" 
-                                               class="text-blue-600 hover:text-blue-800 text-xs underline">Ver</a>
+                                               class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-xs underline">Ver</a>
                                         </div>
                                     </div>
                                 @endif
@@ -166,11 +166,11 @@
                                 
                                 @if ($inscripto->archivo2)
                                     <div class="mb-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                                        <p class="text-xs font-semibold text-blue-800 mb-1">Archivo actual:</p>
+                                        <p class="text-xs font-semibold text-blue-800 dark:text-blue-300 mb-1">Archivo actual:</p>
                                         <div class="flex items-center justify-between">
                                             <span class="text-xs text-blue-700">{{ $inscripto->archivo2_nombre_original ?? basename($inscripto->archivo2) }}</span>
                                             <a href="{{ route('inscripciones.archivo', [$inscripto->id, 'archivo2']) }}" target="_blank" 
-                                               class="text-blue-600 hover:text-blue-800 text-xs underline">Ver</a>
+                                               class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-xs underline">Ver</a>
                                         </div>
                                     </div>
                                 @endif

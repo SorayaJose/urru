@@ -23,7 +23,12 @@
 
             @endif
 
-            @livewire('mostrar-torneos-escuela')
+            @if (auth()->user()->rol == 0)
+                @livewire('mostrar-torneos-admin')
+            @else
+                @livewire('mostrar-torneos-escuela')    
+            @endif
+            
         </div>
     </div>
 </x-app-layout>

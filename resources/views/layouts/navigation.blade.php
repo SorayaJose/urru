@@ -130,9 +130,27 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         @auth
             <div class="pt-2 pb-3 space-y-1">
+            @if (auth()->user()->rol == 0)
                 <x-responsive-nav-link :href="route('torneos.index')" :active="request()->routeIs('torneos.index')">
                     {{ __('Torneos') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('escuelas.index')" :active="request()->routeIs('escuelas.index')">
+                    {{ __('Escuelas') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('categorias.index')" :active="request()->routeIs('categorias.index')">
+                    {{ __('Categorías') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('pistas.index')" :active="request()->routeIs('pistas.index')">
+                    {{ __('Pistas') }}
+                </x-responsive-nav-link>
+            @else ()
+                <x-responsive-nav-link :href="route('home.index')" :active="request()->routeIs('home.index')">
+                    {{ __('Torneos') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('patinadores.index')" :active="request()->routeIs('patinadores.index')">
+                    {{ __('Patinadores') }}
+                </x-responsive-nav-link>
+            @endif
             </div>
 
             <!-- Responsive Settings Options -->
